@@ -1,0 +1,485 @@
+% Dokumentklasse (Schriftgröße 6, DIN A4, Artikel)
+\documentclass[6pt,a4paper]{scrartcl}
+
+% Pakete laden
+\usepackage[utf8]{inputenc}		% Zeichenkodierung: UTF-8 (für Umlaute)
+\usepackage[german]{babel}		% Deutsche Sprache
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{esint}				% erweiterte Integralsymbole
+\usepackage{multicol}			% ermöglicht Seitenspalten
+\usepackage{wasysym}			% Blitz
+\usepackage{graphicx}
+\usepackage{latex4ei_boxes}
+
+% Seitenlayout und Ränder:
+\usepackage{geometry}
+\geometry{a4paper,landscape, left=6mm,right=6mm, top=0mm, bottom=3mm,includeheadfoot}
+
+% UPDATE WITHOUT CLASS CHANGE
+% ----------------------------------------------------------------------
+
+% LastPage
+\usepackage{lastpage}
+
+% Allow hyperlinks
+	\RequirePackage[pagebackref=true,pdfpagelabels]{hyperref}
+	
+% Colors
+	\RequirePackage{latex4ei/latex4ei_colors}
+	\colorlet{col_link}{tum_blue_dark}
+    \colorlet{col_sectionbox}{tum_gray}
+	\hypersetup{
+	colorlinks=true,
+	linkcolor=col_link,
+	urlcolor=col_link,
+	citecolor=col_link,
+}
+% ----------------------------------------------------------------------
+
+% Schriftart SANS für bessere Lesbarkeit bei kleiner Schrift
+\renewcommand{\familydefault}{\sfdefault}
+
+
+% Custom Commands
+\renewcommand{\thesubsection}{\arabic{subsection}}
+\newcommand{\me}[1]{\ensuremath{\left\{#1\right\}}}
+\newcommand{\dme}[2]{\ensuremath{\left\{#1\,\vert\,#2 \right\}}}
+\newcommand{\abs}[1]{\ensuremath{\left\vert#1\right\vert}}
+\newcommand{\un}[1]{\; \unit{#1} }
+\newcommand{\unf}[2]{\;\left[ \unitfrac{#1}{#2} \right]}
+\newcommand{\norm}[2][\relax]{\ifx#1\relax \ensuremath{\left\Vert#2\right\Vert}\else \ensuremath{\left\Vert#2\right\Vert_{#1}}\fi}
+\newcommand{\enbrace}[1]{\ensuremath{\left(#1\right)}}
+\newcommand{\nira}[1]{\ensuremath{\overset{n \rightarrow \infty}{\longrightarrow}}}
+\newcommand{\os}[2]{\ensuremath{\overset{#1}{#2}}}
+\makeatletter
+\newcommand{\Ra}[0]{\ensuremath{\Rightarrow}}
+\newcommand{\ra}[0]{\ensuremath{\rightarrow}}
+\newcommand{\gk}[1]{\ensuremath{\left\lfloor#1\right\rfloor}}
+\newcommand{\sprod}[2]{\ensuremath{%
+  \setbox0=\hbox{\ensuremath{#2}}
+  \dimen@\ht0
+  \advance\dimen@ by \dp0
+  \left\langle #1\rule[-\dp0]{0pt}{\dimen@},#2\right\rangle}}
+
+%Custom functions
+\DeclareMathOperator{\arccot}{arccot}
+
+
+\begin{document}
+
+\begin{multicols*}{4}
+
+	\subsection{Allgemeines}
+
+	Dreiecksungleichung \qquad \qquad \qquad
+	\begin{math}\begin{array}{l}
+			\abs{x + y} \le \abs{x} + \abs{y} \\
+			\abs{\abs{x}- \abs{y}} \le \abs{x-y}
+		\end{array}\end{math} \\
+	Arithmetische Summenformel \qquad
+	\begin{math}\begin{array}{l}
+			\sum\limits_{k = 1}^{n}k = \frac{n (n+1)}{2}
+		\end{array}\end{math}  \\
+	\\
+	Geometrische Summenformel \qquad
+	\begin{math}\begin{array}{l}
+			\sum\limits_{k = 0}^{n}q^k = \frac{1 - q^{n+1}}{1-q}
+		\end{array}\end{math}\\
+	\\
+	Bernoulli-Ungleichung \qquad \qquad \quad
+	\begin{math}\begin{array}{l}
+			(1+a)^n \ge 1 + na
+		\end{array}\end{math}\\
+	\\
+	Binomialkoeffizient \qquad \qquad \qquad
+	\begin{math}\begin{array}{l}
+			\binom{n}{k} = \frac{n!}{k!(n-k)!} \\
+			\binom{n}{0} = \binom{n}{n} = 1
+		\end{array}\end{math}\\
+	\\
+	Binomialidentität \qquad \qquad \qquad \quad
+	\begin{math}\begin{array}{l}
+			\binom{n}{k-1}+\binom{n}{k} = \binom{n+1}{k}
+		\end{array}\end{math}\\
+	\\
+	Binomische Formel \qquad \qquad \qquad
+	\begin{math}\begin{array}{l}
+			(a+b)^n = \sum\limits_{k = 0}^{n} \binom{n}{k} a^{n-k} b^{k}
+		\end{array}\end{math}   \\
+
+	\subsubsection{Komplexe Zahlen - Polarkoordinaten}
+	$z=a+b\mathbf{i}\ne0$\ in Polarkoordinaten:\\
+	$z=r (\cos(\varphi)+\mathbf{i}\sin(\varphi))=r\cdot e^{\mathbf{i} \varphi}$\\
+	$r=|z|=\sqrt{a^2+b^2}\quad\varphi=\arg(z)=\begin{cases}+\arccos \left( \frac{a}{r}\right),  & b\ge0   \\  -\arccos \left( \frac{a}{r}\right), & b<0\end{cases}$
+
+	\subsection{Folgen und Grenzwerte}
+	\begin{sectionbox}
+		\textbf{Es gilt:}
+		\begin{itemize}
+			\item $(a_n)$ konvergent $\Longrightarrow$ Grenzwert eindeutig
+			\item $(a_n)$ konvergent $\Longrightarrow (a_n)$ beschränkt
+			\item $(a_n)$ unbeschränkt $\Longrightarrow (a_n)$ divergent
+			\item $(a_n)$ beschr. \& monoton $\Longrightarrow (a_n)$ konvergent
+			\item $(a_n)$ beschr. $\Longrightarrow (a_n)$ hat mind. 1 konvergente Teilfolge
+			\item \emph{Cauchy-Kriterium}: $(a_n)$ konvergiert genau dann, wenn:\\
+			      $\forall \epsilon \ \exists N \in \mathbb N_0: |a_n-a_m| < \epsilon \ \forall n,m \ge N$
+		\end{itemize}
+	\end{sectionbox}
+
+	\begin{sectionbox}
+		\subsubsection{Wichtige Grenzwerte}
+		$q^n \quad \overset{n \rightarrow \infty}{\longrightarrow} \quad \begin{cases} 0 & |q|<1 \\ 1 & q=1 \\ \pm \infty & q < -1  \\  + \infty & q > 1\end{cases}$ \\
+		$\left(1+\frac{c}{n}\right)^n \rightarrow e^c$ \qquad $\left(\frac{n}{n+c}\right)^n \rightarrow \frac{1}{e^c} $ \\
+		$n\left(c^{\frac1{n}}-1\right) = \ln c$ \\
+		$n^{\frac{c}{n}}=\sqrt[n]{n^c} \overset{n \rightarrow \infty}{\longrightarrow} 1 \quad \forall c \in \mathbb R$ \\
+		$\frac{e^x-1}{x} \overset{x \rightarrow 0}{\longrightarrow} 1$ \qquad	$\frac{\sin x}{x} \overset{x \rightarrow 0}{\longrightarrow} 1$
+	\end{sectionbox}
+
+	\subsection{Reihen}
+	\begin{eqnarray*}
+		\underset{\alpha = 1 \rightarrow \text{Harmon. Reihe}}{\sum_{n=1}^\infty \frac{1}{n^\alpha}} = \begin{cases} \text{konvergent}, & \alpha > 1 \\ \text{divergent}, & \alpha \le 1 \end{cases} \\ \underset{\text{Geometrische Reihe}}{\sum_{n=0}^\infty q^n = \frac{1}{1-q}} \qquad \text{falls}\ |q|<1 \\
+	\end{eqnarray*}
+	Alternierende Reihe: $\sum_{n}^{\infty}(-1)^n a_n \qquad a_n>0$
+
+	\begin{sectionbox}
+		\subsection{Konvergenzkriterien}
+		\begin{itemize}
+			\item $\lim_{n\to\infty}a_n \ne 0 \Longrightarrow \sum^{\infty}_{n = 0} a_n$ divergent.
+			\item $(a_n) \ge 0$ monoton fallende Nullfolge $\Longrightarrow \sum^{\infty}_{n = 0}(-1)^n a_n$ konvergent (\textbf{Leibniz-Kriterium})
+			\item \textbf{Vergleichskriterium}: Seien $(a_n)$ und $(b_n)$ zwei Folgen für die gilt $|a_n| \le b_n \ \forall n > N$, dann kann man folgende Aussagen treffen:
+			      \begin{itemize}\itemsep0pt
+				      \item Ist $\sum_{n=0}^{\infty} b_n$ konvergent, so konvergiert $\sum_{n=0}^{\infty} a_n$ absolut
+				      \item Ist $\sum_{n=0}^{\infty} |a_n|$ divergent, so divergiert auch $\sum_{n=0}^{\infty} b_n$
+			      \end{itemize}
+			\item \textbf{Integralkriterium}\\
+			      $f: [0, \infty) \rightarrow \mathbb R$ monoton fallend und $f(x) \ge 0 \ \forall x > K$: \\
+			      \[
+				      \int_{0}^{\infty}f(x) \text{ konvergent } \Leftrightarrow \sum_{n=0}^{\infty}f(n) \text{ konvergent}
+			      \]
+			\item \textbf{Cauchy-Kriterium für Reihen}
+			      \[
+				      \text{Gilt: } \exists \epsilon > 0: \quad \left|\sum_{k=n}^{m}a_k\right| < \epsilon \quad \forall n,m \ge N_\epsilon
+			      \]
+			      so konvergiert die zugeh. Reihe.
+		\end{itemize}
+
+		\subsubsection{Reihenaddition}
+		\begin{itemize}
+			\item $\sum a_n$ und $\sum b_n$ konvergent $\Rightarrow \sum (a_n+b_n)$ konvergent
+			\item $\sum a_n$ divergent, $\sum b_n$ konvergent $\Rightarrow \sum (a_n+b_n)$ divergent
+			\item Beide Reihen divergent $\Rightarrow$ Keine Aussage möglich
+			\item $\sum |a_n|$ und $\sum |b_n|$ konvergent $\Rightarrow \sum |a_n+b_n|$ konvergent.
+			\item $\sum a_n$ absolut konvergent, $\sum b_n$ nur bedingt konvergent $\Rightarrow \sum (a_n+b_n)$ nur bedingt konvergent
+			\item Beide Reihen bedingt konvergent $\Rightarrow$ Keine Aussage möglich (über Bedingtheit)
+		\end{itemize}
+	\end{sectionbox}
+
+	\begin{sectionbox}
+		\vspace{-3mm}
+		\paragraph{Wichtige Vergleichsfolgen\\}
+		\begin{tabular}{l|l}
+			$\frac{\sqrt{n+1}-\sqrt{n}}{\sqrt{n}} \ge \frac{1}{4n}$ & $\frac{n!}{n^n}\le \frac{1}{n^2}$, $\forall n \ge 5$
+		\end{tabular}
+	\end{sectionbox}
+
+	\subsection{Potenzreihen}
+	\begin{sectionbox}
+		\subsubsection{Konvergenzradius}
+		$R = \lim\limits_{n\rightarrow \infty} \abs{\frac{a_n}{a_{n+1}}}=\frac{1}{\lim\limits_{n\rightarrow \infty}\sqrt[n]{\abs{a_n}}}$ \\
+		$R =\liminf\limits_{n\rightarrow \infty} \abs{\frac{a_n}{a_{n+1}}}=\frac{1}{\limsup\limits_{n\rightarrow \infty}\sqrt[n]{\abs{a_n}}}$
+	\end{sectionbox}
+
+	\subsection{Funktionen}
+	\textbf{Stetigkeit} in $x_0$:
+	\begin{equation*}
+		\lim_{x\to x_0+}f(x)=\lim_{x\to x_0-}f(x)=f(x_0)
+	\end{equation*}
+
+	\subsubsection{Symmetrie einer Funktion $f$}
+	\textbf{Achsensymmetrie} (gerade Funktion): $f(-x)=f(x)$\\
+	\textbf{Punktsymmetrie} (ungerade Funktion): $f(-x)=-f(x)$\\
+	\\
+	Regeln für gerade Funktion $g$ und ungerade Funktion $u$:\\
+	$g_1 \pm g_2 = g_3$ \qquad $u_1 \pm u_2 = u_3$\\
+	$g_1 \cdot g_2=g_3$ \qquad $u_1 \cdot u_2 = g_3$ \qquad $u_1 \cdot g_1=u_3$
+
+	\subsubsection{Kurvendiskussion von $f: I = [a, b] \rightarrow \mathbb{R}$}
+	\textbf{Lokales Maximum} \\
+	wenn $x_0$ stationärer Punkt ($f'(x_0) = 0$) und
+	\begin{itemize}\itemsep0pt
+		\item
+		      $f''(x_0)<0$ oder
+		\item
+		      $f'(x) > 0, x \in (x_0-\varepsilon, x_0) \\
+			      f'(x) < 0, x \in (x_0, x_0+\varepsilon)$
+	\end{itemize}
+	\textbf{Lokales Minimum} \\
+	wenn $x_0$ stationärer Punkt ($f'(x_0) = 0$) und
+	\begin{itemize}\itemsep0pt
+		\item
+		      $f''(x_0)>0$ oder
+		\item
+		      $f'(x) < 0, x \in (x_0-\varepsilon, x_0) \\
+			      f'(x) > 0, x \in (x_0, x_0+\varepsilon)$
+	\end{itemize}
+
+	\textbf{Monotonie} \\
+	$f'(x) \underset{(>)}{^{\ge}} 0 \rightarrow$ \ $f$ (streng) Monoton steigend, $x\in(a,b)$\\
+	$f'(x) \underset{(<)}{^{\le}} 0 \rightarrow$ \ $f$ (streng) Monoton fallend, $x\in(a,b)$\\
+	(Umkehrung gilt nur für nicht-streng)\\
+
+	\textbf{Konvex/Konkav} \\
+	$f''(x) \underset{(>)}{^{\ge}} 0 \ \rightarrow$ \ $f$ (strikt) konvex, $x\in(a,b)$\\
+	$f''(x) \underset{(<)}{^{\le}} 0 \ \rightarrow$ \ $f$ (strikt) konkav, $x\in(a,b)$\\
+	(Umkehrung gilt nur für nicht-strikt) \\
+	$f''(x_0)=0 \text{ und } f'''(x_0) \ne 0 \rightarrow x_0$ Wendepunkt \\
+	$f''(x_0)=0 \text{ und Vorzeichenwechseln an } x_0 \rightarrow x_0$ Wendepunkt
+
+	\subsubsection{Asymptoten von $f$}
+	Horizontal: $c=\lim\limits_{x\ra \pm \infty} f(x)$\\
+	Vertikal: $\exists \text{ Nullstelle } a \text{ des Nenners }: \lim\limits_{x \rightarrow a^{\pm}} f(x) = \pm \infty$\\
+	Polynomasymptote $P(x)$: $f(x):=\frac{A(x)}{Q(x)}=P(x)+ \underset{\ra 0}{\frac{B(x)}{Q(x)}}$
+
+	\begin{sectionbox}
+		\subsubsection{Wichtige Sätze für \underline{stetige} Fkt. $f: [a,b] \rightarrow \mathbb R, x \mapsto f(x)$ }
+		\textbf{Beschränktheit:} $f$ ist auf $[a,b]$ beschränkt\\
+		\textbf{Minima/Maxima:} $f$ nimmt auf $[a,b]$ ihr Minimum $m$ und Maximum $M$ an (Min./Max. des Intervalles, nicht von ganz $\mathbb R$!)\\
+		\textbf{Zwischenwertsatz:} $\forall y \in [f(a),f(b)]\ \exists x\in [a,b]:f(x)=y$\\
+		$\Longrightarrow$ Jedes $c \in [a,b]$ wird angenommen\\
+		\textbf{Satz von Rolle:} Falls $f$ auf (a,b) diffbar (keine Sprünge oder Knicke), und $f(a)=f(b)$, dann $\exists x_0 \in (a,b): f' (x_0) = 0$\\
+		\textbf{Mittelwertsatz:} Falls $f$ auf (a,b) diffbar, dann $\exists \xi_x \in (a,b):f'(\xi_x)=\frac{f(b)-f(a)}{b-a}$\\
+		\textbf{Regel von L'Hospital}:\\ $\lim\limits_{x \rightarrow a} \frac{f(x)}{g(x)} = \left[ \frac{0}{0} \right] \text{oder} \left[ \frac{\infty}{\infty} \right] \Rightarrow \lim\limits_{x \rightarrow a} \frac{f(x)}{g(x)} = \lim\limits_{x \rightarrow a} \frac{f'(x)}{g'(x)}$\\
+		$g'(x) \ne 0 \in (a - \epsilon, a + \epsilon)\setminus \{a\}$
+	\end{sectionbox}
+
+	\begin{sectionbox}
+		\subsubsection{Trigonometr. Funktionen}
+		\begin{eqnarray*}
+			\arcsin: [-1,1] \rightarrow [-\frac{\pi}{2},\frac{\pi}{2}] & \arccos: [-1,1] \rightarrow [0,\pi] \\
+			\arctan: (-\infty, \infty) \rightarrow [-\frac{\pi}{2},\frac{\pi}{2}] \\
+			\sin^2 x = \frac{1 - \cos(2x)}{2} &\cos^2 x=\frac{1 + \cos(2x)}{2} \\
+			\sin(x)=\frac{1}{2i}\enbrace{e^{ix}-e^{-ix}} \quad & \quad \cos(x)=\frac{1}{2}\enbrace{e^{ix}+e^{-ix}} \\
+			\sinh(x)=\frac{1}{2}(e^x-e^{-x}) & \cosh(x)=\frac{1}{2}(e^x+e^{-x}) \\
+			\frac{1}{\cos^2 x}=1+\tan^2x & \frac{1}{\sin^2 x}=1+\cot^2x
+		\end{eqnarray*}
+		$\sin x \cos y = \frac{1}{2}\sin(x-y)+\frac{1}{2}\sin(x+y)$\\
+		$\tan(x+y)=\frac{\tan x + \tan y}{1 - \tan x \tan y}$\\
+
+		\subsubsection{Additionstheoreme}
+		\begin{eqnarray*}
+			& \cos \enbrace{x - \frac{\pi}{2}} = \sin x \qquad \quad \sin \enbrace{x + \frac{\pi}{2}} = \cos x \\
+			& \sin \enbrace{x + y} = \sin x \cos y + \cos x \sin y \\
+			& \quad \sin (2x) = 2 \sin (x) \cos (x)        \\
+			& \cos (x + y) = \cos x \cos y - \sin x \sin y \\
+			& \quad \cos (2x) = \cos^2 (x) - \sin^2 (x) = 2\cos^2 (x) - 1\\
+		\end{eqnarray*}
+	\end{sectionbox}
+	\hspace{-20pt}
+	\scalebox{0.75}
+	{
+		$\begin{array}{c|c|c|c|c|c|c|c|c|c|c|c}
+				x    & 0^{\circ} & 30^{\circ}         & 45^{\circ}         & 60^{\circ}        & 90^{\circ} & 120^{\circ}       & 135^{\circ}         & 150^{\circ}         & 180^{\circ} & 270^{\circ}    & 360^{\circ} \\ \hline
+				x    & 0         & \pi / 6            & \pi / 4            & \pi / 3           & \pi / 2    & \frac{2}{3}\pi    & \frac{3}{4}\pi      & \frac{5}{6}\pi      & \pi         & \frac{3}{2}\pi & 2 \pi       \\ \hline
+				\sin & 0         & \frac{1}{2}        & \frac{\sqrt{2}}{2} & \frac{\sqrt 3}{2} & 1          & \frac{\sqrt 3}{2} & \frac{\sqrt{2}}{2}  & \frac{1}{2}         & 0           & -1             & 0           \\
+				\cos & 1         & \frac{\sqrt 3}{2}  & \frac{\sqrt{2}}{2} & \frac{1}{2}       & 0          & -\frac{1}{2}      & -\frac{\sqrt{2}}{2} & -\frac{\sqrt 3}{2}  & -1          & 0              & 1           \\
+				\tan & 0         & \frac{\sqrt{3}}{3} & 1                  & \sqrt{3}          & ?          & -\sqrt{3}         & -1                  & -\frac{\sqrt{3}}{3} & 0           & ?              & 0           \\
+			\end{array}$
+	}
+
+	\subsection{Ableitung und Integral}
+	\begin{sectionbox}
+		\subsubsection{Differenzierbarkeit}
+		$f$ differenzierbar in $x_0$, falls $f$ in $x_0$ stetig und
+		\begin{equation*}
+			\lim_{h \to 0}\dfrac{f(x_0+h)-f(x_0)}{h}=f'(x_0)
+		\end{equation*}
+		existiert ($h \rightarrow 0+$ und $h \rightarrow 0-$ müssen beide gleich sein!)
+	\end{sectionbox}
+	\textbf{Ableitung der Umkehrfunktion} \\
+	$f$ stetig, streng monoton, an $x_0$ diff'bar, $f'(x_0)\ne 0$ und $y_0=f(x_0) \\
+		\Rightarrow \enbrace{f^{-1}}(y_0)= \frac{1}{f'(x_0)} =\frac{1}{f'(f^{-1}\enbrace{y_0})}$\\
+	\textbf{Tangentengleichung} $y=f(x_0)+f'(x_0)(x-x_0)$
+
+	\subsubsection{Integration}
+	\textbf{Tangens-Halbwinkel}: $u=\tan (\frac{x}{2}) \qquad dx=\frac{2}{1+u^2}du$\\
+	$\sin x \rightarrow \frac{2u}{1+u^2} \qquad \cos x \rightarrow \frac{1-u^2}{1+u^2}$
+
+	\everymath{\displaystyle}	% Formeln ab hier groß Schreiben
+	\begin{math}\renewcommand{\arraystretch}{1.8}
+		\begin{array}{c|c|c}
+			F(x)                                               & f(x)          & f'(x)                   \\ \hline
+			\frac{a^x}{\ln(a)}                                 & a^x           & a^x \ln(a)              \\
+			x\ln x - x                                         & \ln x         & \frac{1}{x}             \\
+			-\ln |\cos(x)|                                     & \tan(x)       & \frac{1}{\cos^2(x)}     \\
+			\ln |\sin(x)|                                      & \cot(x)       & \frac{-1}{\sin^2(x)}    \\
+			x\arcsin (x)+\sqrt{1-x^2}                          & \arcsin(x)    & \frac{1}{\sqrt{1-x^2}}  \\
+			x\arccos (x)-\sqrt{1-x^2}                          & \arccos(x)    & -\frac{1}{\sqrt{1-x^2}} \\
+			x\arctan (x)-\frac{1}{2} \ln \left| 1+ x^2 \right| & \arctan (x)   & \frac{1}{1+x^2}         \\
+			x\arccot (x)+\frac{1}{2} \ln \left| 1+ x^2 \right| & \arccot (x)   & -\frac{1}{1+x^2}        \\ \hline
+			\int_{u(x)}^{v(x)}g(t) \mathrm dt                  & g(v(x))v'(x)  &                         \\
+			                                                   & -g(u(x))u'(x) &                         \\ \hline
+		\end{array}
+	\end{math}
+	\everymath{\textstyle}
+
+	\begin{sectionbox}
+		\textbf{Es gilt für} $f:[a,b] \rightarrow \mathbb R$:
+		\begin{itemize}\itemsep0pt
+			\item Ist $f$ stetig und/oder monoton und beschränkt (in $[a,b]$) $\Rightarrow f$ integrierbar
+			\item $f$ integrierbar $\Leftrightarrow |f|$ integrierbar
+			\item Es gilt \begin{equation*}
+				      \abs{\int_{a}^{b}f(x)\mathrm dx} \le \int_{a}^{b}\abs{f(x)}\mathrm dx
+			      \end{equation*}
+			\item Jede stetige Funktion besitzt eine Stammfunktion. Es gibt aber unstetige Funktionen mit Stammfunktionen.
+		\end{itemize}
+	\end{sectionbox}
+
+	\vspace{-1mm}
+	\begin{sectionbox}
+		\vspace{-2mm}
+		\subsubsection{Vergleichsintegrale}
+		$\int\limits_{1}^{\infty} \frac{1}{x^\alpha} \mathrm dx \begin{cases} \frac{1}{\alpha -1}, \quad \alpha > 1 \\ \infty, \qquad \alpha \le 1 \end{cases}$ \qquad
+		$\int\limits_{0}^{1} \frac{1}{x^\alpha} \mathrm dx \begin{cases} \frac{1}{\alpha -1}, \quad \alpha < 1 \\ \infty, \qquad \alpha \ge 1 \end{cases}$\\ \\ \\
+		$\ln(1+x) \le x \quad \forall x > 0$
+	\end{sectionbox}
+
+	\begin{sectionbox}
+		\everymath{\displaystyle}
+		\subsubsection{Partialbruchzerlegung}
+		\begin{tabular}{l|l|l}
+			$\frac{A}{x}$                                   &                      & $\frac{A}{(x+b)^n} \quad b \ne 0$ \\ \hline
+			$\frac{\dots}{x^2}=\frac{A}{x} + \frac{B}{x^2}$ & $\frac{Ax+B}{x^2+b}$ & $\frac{Ax+B}{(x^2+b)^n + c}$
+		\end{tabular}
+		\\\\
+		\textbf{Integrale nach Partialbruchzerlegung}\\
+		\begin{math}\begin{array}{l}
+				\int\frac{1}{(x-a)^n}\mathrm dx=-\frac{1}{n-1}\frac{1}{(x-a)^{n-1}}+c \qquad n \ge 2 \\
+				\int\frac{1}{(x-a)^2+b^2}\mathrm dx=\frac{1}{b}\arctan(\frac{x-a}{b})+c              \\
+				\int\frac{x-a}{(x-a)^2+b}\mathrm dx=\frac{1}{2}\ln((x-a)^2+b^2)+c
+			\end{array}\end{math}
+
+		\everymath{\textstyle}
+	\end{sectionbox}
+
+	\subsection{Taylor-Entwicklung}
+	$m$-te Taylorpolynom zur Approximation einer $m$-mal differenzierbaren Funktion $f:I=[a,b] \rightarrow \mathbb R$. $m$ bezieht sich auf die größte Potenz, nicht auf das Summenende!
+	\begin{equation*}
+		T_m(x_0;x)=\sum_{n=0}^{m}\frac{f^{(n)}(x_0)}{n!}(x-x_0)^n
+	\end{equation*}
+
+	\begin{sectionbox}
+		\subsubsection{Restglied - der Fehler}
+		Für $(m+1)$-mal stetig differenzierbare Funktionen gilt $\forall x \in I$:
+		\everymath{\displaystyle}
+		\begin{itemize}
+			\item $R_{m+1}(x_0;x):=f(x)-T_m(x_0;x)$
+			\item $R_{m+1}(x_0;x)=\frac{1}{m!}\int_{x_0}^{x}(x-t)^mf^{(m+1)}(t)\mathrm dt$\\ (Integraldarst.)
+			\item $R_{m+1}(x_0;x)=\frac{f^{(m+1)}(\xi_x)}{(m+1)!}(x-x_0)^{m+1} \\ \xi_x\in (x,x_0)$ (Lagrange)
+		\end{itemize}
+		\everymath{\textstyle}
+
+		\subsubsection{Fehlerabschätzung}
+		Ansatz: $|f(x)-T_n(x_0,x)|=|R_{m+1}(x_0,x)| \le \dots$\\
+		Man wählt $\xi, x$ so, dass das Restglied maximal groß wird ($\xi$ immer im gleichen Intervall wie $x$ definiert!). Das ist der \textbf{absolute} Fehler.\\
+		\textbf{relativer Fehler}: \\
+		$= \frac{\text{Fehler(x)}}{\text{geschätzter bzw. kleinstmöglicher Funktionswert(x)}}$
+	\end{sectionbox}
+
+	\begin{sectionbox}
+		\subsubsection{Taylorreihe}
+		Grenzfall für $m \rightarrow \infty$. Drei Möglichkeiten für unterschiedl. Werte von $x$ und festes $x_0$:
+		\begin{enumerate}\itemsep0pt
+			\item Die Reihe konvergiert und $T_f(x_0;x)=f(x)$ \begin{itemize}
+				      \item Für festes $f,x,x_0$ muss gelten: \\$R_n(x_0;x)\overset{!}{\rightarrow }0 \qquad (n \rightarrow \infty)$ mit \\$R_n(x_0;x)=f(x)-T_{n-1}(x_0;x)$
+			      \end{itemize}
+			\item Die Reihe divergiert
+			\item Die Reihe konvergiert, aber $T_f(x_0;x)\ne f(x)$
+		\end{enumerate}
+	\end{sectionbox}
+
+	\subsection{Landau-Notation}
+	\begin{sectionbox}
+		\begin{itemize}\itemsep-1pt
+			\item $f(x) = o(g(x))$ für $x \rightarrow a \Leftrightarrow \lim\limits_{x \rightarrow a} \frac{f(x)}{g(x)} = 0$
+			\item[-] Aussage: $f(x)$ geht schneller gegen $0$ als $g(x)$
+			\item $f(x) = O(g(x))$ für $x \rightarrow a \Leftrightarrow |f(x)| \leq C|g(x)|$ für $x \in (a - \epsilon, a + \epsilon)$ u. $C > 0$\\ oder $0 \leq \limsup\limits_{x \rightarrow a} \abs{\frac{f(x)}{g(x)}} < \infty$
+			\item[-] Aussage: $f(x)$ geht mindestens so schnell gegen $0$ als $g(x)$
+		\end{itemize}
+	\end{sectionbox}
+
+	Bei \textbf{Taylor-Entwicklung} ($h=x-x_0$):
+	\begin{itemize}\itemsep-1pt
+		\item $R_{m+1}(x_0;x_0+h) = f(x_0 + h) - T_{m}(x_0;x_0+h) = o(h^m)$\\ f muss m-mal differenzierbar sein
+		\item $R_{m+1}(x_0;x_0+h) = f(x_0 + h) - T_{m}(x_0;x_0+h) = O(h^{m+1})$\\ f muss $(m+1)$-mal differenzierbar sein
+		\item $O(h^{m+1}) \Rightarrow o(h^m)$, aber $o(h^m) \Rightarrow O(h^m)$
+	\end{itemize}
+	\subsubsection{Rechenregeln}
+	\begin{itemize}\itemsep-1pt
+		\item $f = O(f)$
+		\item $f = o(g) \quad\Rightarrow\quad f = O(g)$
+		\item $f_1 = o(g)$ u. $f_2 = o(g) \quad\Rightarrow\quad f_1 + f_2 = o(g)$
+		\item $f_1 = O(g)$ u. $f_2 = O(g) \quad\Rightarrow\quad f_1 + f_2 = O(g)$
+		\item $f_1 = O(g)$ u. $f_2 = O(g) \quad\Rightarrow\quad f_1 \cdot f_2 = O(g_1 \cdot g_2)$
+		\item $f_1 = O(g)$ u. $f_2 = o(g) \quad\Rightarrow\quad f_1 \cdot f_2 = o(g_1 \cdot g_2)$
+		\item $x^3+O(x^4)=O(x^3)$, für $x \rightarrow 0$, da $x^4$ schneller gegen $0$ geht als $x^3$
+	\end{itemize}
+	\begin{sectionbox}
+		\subsubsection{Elementarfunktionen}
+		\begin{itemize}\itemsep-1pt
+			\item Exponentialfunktion\\
+			      $e^x = \sum\limits_{n = 0}^m\frac{x^n}{n!} + O(x^{m + 1})$ \qquad \qquad \qquad \qquad $x \rightarrow x_0=0$
+			\item Trigonometrische Funktionen\\
+			      $\sin{x} = \sum\limits_{n = 0}^m(-1)^n\frac{x^{2n + 1}}{(2n + 1)!} + O(x^{2m + 3})$ \qquad $x \rightarrow x_0=0$ \\
+			      $\cos{x} = \sum\limits_{n = 0}^m(-1)^n\frac{x^{2n}}{(2n)!} + O(x^{2m + 2})$ \qquad $x \rightarrow x_0=0$
+			\item Logarithmusfunktion\\
+			      $\ln{(1+x)} = \sum\limits_{n = 1}^m\frac{(-1)^{n + 1}}{n}x^n + O(x^{m + 1})$ \quad $x \rightarrow x_0=0$
+		\end{itemize}
+	\end{sectionbox}
+
+	\subsection{Kurven}
+	Abbildung $k:[a,b] \rightarrow \mathbb R^n$.
+	\begin{sectionbox}
+		\subsubsection{Eigenschaften}
+		\begin{itemize}
+			\item (stückweise) $C^n$-Kurve: Kurve, die $n$-mal (stückweise) diffbar ist.
+			\item Länge einer Kurve $k:[a,b] \rightarrow \mathbb R^n$\\
+			      \begin{equation*}
+				      L(k)=\int_{a}^{b}\norm{k'(t)}
+			      \end{equation*}
+			\item regulär: $k:I\rightarrow \mathbb R^n, k'(t) \ne 0 \quad \forall t \in I$
+			\item Tangenteneinheitsvektor \\
+			      \begin{equation*}
+				      T(t)=\frac{1}{\norm{k'(t)}}k'(t)
+			      \end{equation*}
+			\item Krümmung \\
+			      \begin{equation*}
+				      \kappa (t)=\frac{1}{s'(t)}\norm{T'(t)}
+			      \end{equation*} \\
+			      Für $k:I\rightarrow \mathbb R^2, k(t) = (x(t), y(t))^T$:\\
+			      \begin{equation*}
+				      \kappa(t)=\frac{\abs{x'(t)y''(t)-y'(t)x''(t)}}{(x'(t)^2+y'(t)^2)^\frac{3}{2}}
+			      \end{equation*} \\
+			      und falls zusätzlich nach Bogenlänge parametrisiert: \\
+			      \begin{equation*}
+				      \kappa(t)=x'(t)y''(t)-y'(t)x''(t)
+			      \end{equation*}
+		\end{itemize}
+	\end{sectionbox}
+
+	\begin{sectionbox}
+		\subsubsection{Umparametrisierung}
+		Verschiedene Kurven mit gleicher Bildmenge, die durch Umparametrisierung ineinander überführt werden\\
+		\textbf{Nach Bogenlänge}:
+		Definitionsintervall der umparametrisierten Kurve ist genauso lang wie die Kurve $\rightarrow$ "Zeit vergeht genauso schnell wie der Weg, den man auf der Kurve zurücklegt"
+		\begin{eqnarray*}
+			\tilde{k}:[0,L(k)]\rightarrow \mathbb R^n, \tilde{k}(\tau)=k(s^{-1}(\tau)) \\
+			s(t)=\int_{a}^{t}\norm{k'(\tau)}d\tau
+		\end{eqnarray*}
+		$s(t)$ ist die durchgelaufene Bogenlänge (der durchgelaufene Weg) zum Zeitpunkt $t$.
+
+		Kurve $k$ nach Bogenlänge parametrisiert $\Leftrightarrow \norm{k'(t)}=1$
+	\end{sectionbox}
+
+\end{multicols*}
+\end{document}
